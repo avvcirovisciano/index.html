@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Legale Visciano - Sistema Ricorsi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, * {
+            font-family: 'Times New Roman', Times, serif;
+        }
+        @media print {
+            body { background: white; }
+            #formSection, .no-print { display: none !important; }
+            .print-page { 
+                page-break-after: always; 
+                margin: 0; 
+                padding: 40px;
+                font-size: 12pt;
+                line-height: 1.6;
+            }
+            .print-page:last-child { page-break-after: auto; }
+        }
+    </style>
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Form Section -->
+        <div id="formSection" class="bg-white rounded-2xl shadow-2xl p-8 mb-6">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">⚖️</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Studio Legale Visciano</h1>
+                <p class="text-xl text-gray-600">Sistema Raccolta Documentazione Ricorsi</p>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
+                <p class="font-semibold">📋 Compila tutti i campi. Alla fine potrai stampare i 4 documenti già compilati.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Dati Personali -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">👤 Dati Personali</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Nome *</label>
+                            <input type="text" id="nome" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Cognome *</label>
+                            <input type="text" id="cognome" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Genere *</label>
+                            <select id="genere" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                                <option value="Il sig.">Il sig.</option>
+                                <option value="La sig.ra">La sig.ra</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Codice Fiscale *</label>
+                            <input type="text" id="cf" maxlength="16" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none uppercase">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Data di Nascita *</label>
+                            <input type="date" id="dataNascita" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Luogo di Nascita *</label>
+                            <input type="text" id="luogoNascita" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Residenza -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">🏠 Residenza</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block font-semibold mb-2">Indirizzo *</label>
+                            <input type="text" id="indirizzo" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">CAP *</label>
+                            <input type="text" id="cap" maxlength="5" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Comune *</label>
+                            <input type="text" id="comune" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Provincia *</label>
+                            <input type="text" id="provincia" maxlength="2" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none uppercase">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contatti -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">📞 Contatti</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Telefono Fisso</label>
+                            <input type="tel" id="telFisso" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Telefono Mobile *</label>
+                            <input type="tel" id="telMobile" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Email *</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servizio A.S. 2025/2026 -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">🏫 In Servizio Anno Scolastico 2025/2026</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Presso (Scuola) *</label>
+                            <input type="text" id="scuola2025" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Con sede in (Città) *</label>
+                            <input type="text" id="sedeScuola" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block font-semibold mb-2">Provincia Scuola *</label>
+                        <input type="text" id="provinciaScuola" maxlength="2" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none uppercase">
+                    </div>
+                </div>
+
+                <!-- Storico Contratti -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">📋 Storico Contratti 30.06</h3>
+                    <p class="text-sm text-gray-600 mb-4">Indica per ogni anno scolastico l'istituto presso cui hai prestato servizio e se avevi un contratto al 30.06</p>
+                    
+                    <div class="space-y-3">
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2014/2015</label></div>
+                            <div><input type="text" id="istituto_0" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_0" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2015/2016</label></div>
+                            <div><input type="text" id="istituto_1" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_1" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2016/2017</label></div>
+                            <div><input type="text" id="istituto_2" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_2" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2017/2018</label></div>
+                            <div><input type="text" id="istituto_3" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_3" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2018/2019</label></div>
+                            <div><input type="text" id="istituto_4" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_4" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2019/2020</label></div>
+                            <div><input type="text" id="istituto_5" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_5" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2021/2022</label></div>
+                            <div><input type="text" id="istituto_6" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_6" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2022/2023</label></div>
+                            <div><input type="text" id="istituto_7" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_7" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2023/2024</label></div>
+                            <div><input type="text" id="istituto_8" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_8" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-3 bg-gray-50 p-3 rounded">
+                            <div><label class="block text-sm font-medium mb-1">A.S. 2024/2025</label></div>
+                            <div><input type="text" id="istituto_9" placeholder="Nome Istituto" class="w-full px-3 py-2 border rounded-lg text-sm"></div>
+                            <div><select id="contratto_9" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="">Contratto 30.06?</option><option value="SI">SI</option><option value="NO">NO</option></select></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trasferimenti -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">🔄 Eventuali Trasferimenti</h3>
+                    <div>
+                        <label class="block font-semibold mb-2">Comunicare eventuali trasferimenti di sedi</label>
+                        <textarea id="trasferimenti" rows="3" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="Descrivi eventuali trasferimenti di sede..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Reddito -->
+                <div class="border-b pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">💰 Situazione Reddituale</h3>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4 rounded">
+                        <p class="text-sm">Esenzione dal contributo per reddito familiare ≤ € 40.978,92</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Reddito Familiare Annuo (€)</label>
+                            <input type="text" id="reddito" placeholder="Es: 35000" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Anno di Riferimento</label>
+                            <input type="number" id="annoReddito" value="2024" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nucleo Familiare -->
+                <div class="pb-6">
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">👨‍👩‍👧‍👦 Nucleo Familiare</h3>
+                    <div id="nucleoContainer" class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-semibold mb-2">Richiedente (compilato automaticamente dai dati sopra)</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addFamiliare()" class="mt-4 px-6 py-2 bg-indigo-100 text-indigo-700 rounded-lg font-semibold hover:bg-indigo-200">
+                        + Aggiungi Familiare
+                    </button>
+                </div>
+                    <h3 class="text-2xl font-bold mb-4 text-indigo-900">💰 Situazione Reddituale</h3>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4 rounded">
+                        <p class="text-sm">Esenzione dal contributo per reddito familiare ≤ € 40.978,92</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-semibold mb-2">Reddito Familiare Annuo (€)</label>
+                            <input type="text" id="reddito" placeholder="Es: 35000" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2">Anno di Riferimento</label>
+                            <input type="number" id="annoReddito" value="2024" class="w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="generateDocs()" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-xl hover:bg-green-700 transition shadow-lg">
+                    ✓ Genera Documenti Compilati
+                </button>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div id="docsSection" class="hidden space-y-6">
+            
+            <div class="bg-white rounded-2xl shadow-2xl p-8">
+                <div class="text-center mb-6">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h2 class="text-3xl font-bold text-green-700 mb-2">Documenti Generati!</h2>
+                    <p class="text-lg text-gray-600">Stampa ogni documento, firma e invia tutto allo studio</p>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">📝 Istruzioni:</h3>
+                    <ol class="space-y-2 text-gray-800">
+                        <li><strong>1.</strong> Scorri in basso e stampa ogni documento (o Salva come PDF)</li>
+                        <li><strong>2.</strong> FIRMA ogni documento stampato</li>
+                        <li><strong>3.</strong> Scansiona i documenti firmati</li>
+                        <li><strong>4.</strong> Invia tutto via email a: <strong class="text-indigo-700">segreteria@studiovisciano.it</strong></li>
+                    </ol>
+                </div>
+
+                <button onclick="window.print()" class="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-xl hover:bg-indigo-700 transition mb-4">
+                    🖨️ STAMPA TUTTI I DOCUMENTI
+                </button>
+
+                <button onclick="openEmail()" class="w-full bg-green-600 text-white py-4 rounded-lg font-bold text-xl hover:bg-green-700 transition">
+                    📧 APRI EMAIL PER INVIO
+                </button>
+            </div>
+
+            <!-- Document 1 -->
+            <div class="bg-white rounded-xl shadow-xl p-12 print-page" id="doc1" style="font-size: 11pt;">
+                <h1 class="text-center font-bold mb-4" style="font-size: 14pt;">Scheda rilevazione DATI</h1>
+                <h2 class="text-center mb-8" style="font-size: 12pt;">Ricorso Monetizzazione Ferie per docenti con contratti al 30.06</h2>
+                
+                <div class="space-y-3" style="line-height: 1.5;">
+                    <p><strong>Cognome e Nome:</strong> <span id="d1_cognomeNome"></span></p>
+                    <p><strong>Nato a:</strong> <span id="d1_luogoNascita"></span></p>
+                    <p><strong>In data:</strong> <span id="d1_dataNascita"></span></p>
+                    <p><strong>Residente in Via:</strong> <span id="d1_indirizzo"></span></p>
+                    <p><strong>Cap:</strong> <span id="d1_cap"></span></p>
+                    <p><strong>Città:</strong> <span id="d1_comune"></span></p>
+                    <p><strong>C.F.:</strong> <span id="d1_cf"></span></p>
+                    <p><strong>Mail:</strong> <span id="d1_email"></span></p>
+                    <p><strong>Telefono:</strong> <span id="d1_telefono"></span></p>
+                    
+                    <p class="mt-4"><strong>In servizio per l'anno scolastico 2025/2026 presso (scuola)</strong> <span id="d1_scuola"></span></p>
+                    <p><strong>con sede in</strong> <span id="d1_sedeScuola"></span> (<span id="d1_provScuola"></span>)</p>
+                    
+                    <div class="mt-6">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
+                            <thead>
+                                <tr style="border: 1px solid #000;">
+                                    <th style="border: 1px solid #000; padding: 4px; text-align: left;">A.S.</th>
+                                    <th style="border: 1px solid #000; padding: 4px; text-align: left;">ISTITUTO</th>
+                                    <th style="border: 1px solid #000; padding: 4px; text-align: left;">CONTRATTO 30.06 (SI/NO)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="d1_tabellaContratti">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p class="mt-6" style="font-size: 10pt;">Autorizzo il trattamento dei miei dati personali ai sensi del Dlgs 196 del 30 giugno 2003 e dell'art. 13 GDPR (Regolamento UE 2016/679) per le finalità della presente richiesta.</p>
+                    
+                    <p class="mt-8">__________________________, lì <span id="d1_data"></span></p>
+                    <p class="mt-6" style="text-align: right;">Firma _______________________</p>
+                    
+                    <p class="mt-8" style="font-size: 10pt;"><strong>Allegare copia del documento di riconoscimento</strong></p>
+                    <p style="font-size: 10pt; font-style: italic;">Si chiede inoltre di comunicare eventuali trasferimenti di sedi.</p>
+                    <p id="d1_trasferimenti" style="font-size: 10pt; margin-top: 4px;"></p>
+                </div>
+            </div>
+
+            <!-- Document 2 -->
+            <div class="bg-white rounded-xl shadow-xl p-12 print-page" id="doc2" style="font-size: 12pt;">
+                <h1 class="text-center font-bold mb-8" style="font-size: 14pt;">PROCURA ALLE LITI</h1>
+                
+                <div class="space-y-4" style="line-height: 1.6; text-align: justify;">
+                    <p><span id="d2_genere"></span> <span id="d2_nominativo"></span> nat<span id="d2_nato"></span> a <span id="d2_luogoNascita"></span> (<span id="d2_provNascita"></span>) il <span id="d2_dataNascita"></span> C.F. <span id="d2_cf"></span>, residente a <span id="d2_comune"></span> (<span id="d2_provincia"></span>) in <span id="d2_indirizzo"></span></p>
+                    
+                    <p>nomina quale difensore e procuratore speciale in ogni fase e grado, anche nelle fasi dell'esecuzione, opposizione, incidentale, cautelare, ed in sede di gravame l'Avv.to Ciro Visciano del Foro di Rimini, conferendogli ogni più ampia facoltà di legge, ivi comprese le facoltà di transigere, conciliare, incassare, rinunciare agli atti ed accettarne la rinuncia, farsi rappresentare, assistere e sostituire, eleggere domicili, rinunziare alla comparizione delle parti, riassumere la causa, proseguirla, chiamare terzi in causa, deferire giuramento, proporre domande riconvenzionali ed azioni cautelari di qualsiasi genere e natura in corso di causa, chiedere ed accettare rendiconti, ed assumendo sin d'ora per rato e valido l'operato del suddetto legale.</p>
+                    
+                    <p>Elegge domicilio presso lo studio dell'Avv.to Ciro Visciano (C.F. VSCCRI85B28L259I), sito in Rimini (RN), Via Circonvallazione Meridionale 54, pec: ciro.visciano@ordineavvocatirimini.it.</p>
+                    
+                    <p style="font-size: 11pt;">Dichiara di essere stato informato, ai sensi dell'art. 4, co. 3, D. Lgs. n. 28/2010, della possibilità di ricorrere al procedimento di mediazione ivi previsto e dei benefici fiscali di cui agli artt. 17 e 20 del medesimo decreto, nonché dei casi in cui l'esperimento del procedimento di mediazione è condizione di procedibilità della domanda giudiziale. Dichiara di essere stato informato, ai sensi dell'art. 2, co. 7, D. L. n. 132/2014, della possibilità di ricorrere alla convenzione di negoziazione assistita da uno o più avvocati disciplinata dagli artt. 2 e ss. del suddetto decreto legge. Dichiara di essere stato resi edotti circa il grado di complessità dell'incarico che con la presente conferisco, nonché di avere ricevuto tutte le informazioni utili circa gli oneri ipotizzabili dal momento del conferimento sino alla conclusione dell'incarico. Altresì, dichiara di aver ricevuto ed accettato un preventivo scritto relativo alla prevedibile misura del costo della prestazione, distinguendo fra oneri, spese, anche forfetarie, e compenso professionale. Sono stati resi noti gli estremi della polizza assicurativa. Dichiara inoltre di aver ricevute tutte le informazioni previste ai sensi dell'art. 13 del Regolamento UE n. 2016/679 (GDPR) e art. 13 del D.lgs 196/2003 e s.m.i. e presta il proprio consenso al trattamento dei dati personali per l'espletamento del mandato conferito.</p>
+                    
+                    <p style="font-size: 11pt;">La presente procura alle liti è da intendersi apposta, comunque, in calce all'atto, anche ai sensi dell'art. 18, co. 5, D. M. Giustizia n. 44/2011, come sostituito dal D. M. Giustizia n. 48/2013.</p>
+                    
+                    <p class="mt-12">____________, lì <span id="d2_data"></span></p>
+                    <p class="mt-8">_____________________</p>
+                    
+                    <p class="mt-16 text-right" style="line-height: 1.2;">è autografa<br>Avvocato Ciro Visciano</p>
+                </div>
+            </div>
+
+            <!-- Document 3 -->
+            <div class="bg-white rounded-xl shadow-xl p-12 print-page" id="doc3" style="font-size: 12pt;">
+                <h1 class="text-center font-bold mb-2" style="font-size: 13pt;">AUTOCERTIFICAZIONE DELLA SITUAZIONE REDDITUALE</h1>
+                <p class="text-center mb-1" style="font-size: 10pt;">(art. 46 del D.P.R. 28/12/2000 n° 445)</p>
+                <p class="text-center font-bold mb-1" style="font-size: 11pt;">ESENZIONE DAL CONTRIBUTO UNIFICATO DI ISCRIZIONE A RUOLO</p>
+                <p class="text-center font-bold mb-6" style="font-size: 10pt;">AI SENSI DELL'ART. 9 COMMA 1 BIS D.P.R. 30/05/2002 N. 115</p>
+                
+                <div class="space-y-3" style="line-height: 1.6;">
+                    <p>Il/La sottoscritto/a <span id="d3_cognomeNome"></span></p>
+                    <p>nato/a a <span id="d3_luogoNascita"></span> il <span id="d3_dataNascita"></span></p>
+                    <p>residente a <span id="d3_comune"></span> telefono <span id="d3_tel"></span></p>
+                    
+                    <p class="text-justify mt-4" style="font-size: 10pt;">Consapevole delle sanzioni penali, nel caso di dichiarazioni non veritiere, di formazione o uso di atti falsi, richiamate dall'art. 76 del D.P.R. 445 del 28/12/2000 e della decadenza dai benefìci eventualmente conseguenti al provvedimento emanato sulla base della dichiarazione non veritiera ai sensi dell'art. 75 del D.P.R. 445 del 28/12/2000</p>
+                    
+                    <h2 class="text-center font-bold my-4">DICHIARA</h2>
+                    
+                    <p class="text-justify">Che il proprio reddito, compreso quello dei familiari conviventi ex art. 76 D.P.R. 15/2002, non supera l'importo di Euro 40.978,92 relativamente all'anno <span id="d3_anno"></span>.*</p>
+                    
+                    <p>Dichiara che il proprio nucleo familiare, oltre al sottoscritto, è composto da:</p>
+                    
+                    <div class="mt-4 mb-6">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 10pt;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid #000;">
+                                    <th style="text-align: left; padding: 4px; border: 1px solid #000;">Cognome e Nome<br>C.F.</th>
+                                    <th style="text-align: left; padding: 4px; border: 1px solid #000;">Data<br>nascita</th>
+                                    <th style="text-align: left; padding: 4px; border: 1px solid #000;">Comune<br>nascita</th>
+                                    <th style="text-align: left; padding: 4px; border: 1px solid #000;">Rapporto<br>di parentela</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid #000;">
+                                    <td style="padding: 4px; border: 1px solid #000;"><span id="d3_richiedente"></span><br>C.F. <span id="d3_cfRichiedente"></span></td>
+                                    <td style="padding: 4px; border: 1px solid #000;"><span id="d3_dataNascitaRich"></span></td>
+                                    <td style="padding: 4px; border: 1px solid #000;"><span id="d3_comuneNascitaRich"></span></td>
+                                    <td style="padding: 4px; border: 1px solid #000;">RICHIEDENTE</td>
+                                </tr>
+                            </tbody>
+                            <tbody id="d3_tabellaFamiliari">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p style="font-size: 9pt;">* N.B. l'anno di riferimento è quello per il quale è scaduto il termine per la presentazione della dichiarazione dei redditi</p>
+                    
+                    <p class="mt-8">Rimini, <span id="d3_data"></span></p>
+                    <p class="mt-4">FIRMA __________________</p>
+                    
+                    <p class="mt-8 text-justify" style="font-size: 10pt;">Dichiara di essere informato, ai sensi e per gli effetti di cui all'art. 13 del D. Lgs. 196/2003 che i dati personali raccolti saranno trattati, anche con strumenti informatici, esclusivamente nell'ambito del procedimento per il quale la presente dichiarazione viene resa.</p>
+                    
+                    <p class="mt-6">Rimini, <span id="d3_data2"></span></p>
+                    <p>IL DICHIARANTE __________________</p>
+                    <p style="font-size: 9pt; margin-top: 4px;">(Firma per esteso e leggibile)</p>
+                    
+                    <p class="mt-6" style="font-size: 10pt;"><strong>Allegare fotocopia del documento di riconoscimento</strong></p>
+                    <p style="font-size: 10pt;">La presente dichiarazione non necessita dell'autentica della firma.</p>
+                </div>
+            </div>
+
+            <!-- Document 4 -->
+            <div class="bg-white rounded-xl shadow-xl p-10 print-page" id="doc4" style="font-size: 10pt;">
+                <h1 class="text-center font-bold mb-4" style="font-size: 12pt;">Informativa ai sensi degli artt. 13-14 Regolamento UE n. 679/2016</h1>
+                
+                <div class="space-y-3" style="line-height: 1.4; text-align: justify;">
+                    <p>Gentile Cliente, i dati personali da Lei forniti con l'allegato modulo - oltre ogni altro documento e informazione particolare che La riguardi di cui lo Studio Legale entrerà in possesso con l'affidamento della Sua pratica - saranno trattati con l'unico fine di consentire all'Avvocato incaricato ed ai suoi Collaboratori di adempiere al mandato da Lei conferito. Tenga presente che il trattamento dei Suoi dati è indispensabile all'assolvimento dell'incarico professionale cosicché il mancato, parziale o inesatto conferimento potrà avere, come conseguenza, l'impossibilità di assumere l'incarico stesso o di proseguire nel mandato.</p>
+                    
+                    <p>E' indispensabile che i Suoi dati siano esatti e che Lei ci aggiorni tempestivamente di ogni cambiamento: diversamente non avremmo modo di fornirLe informazioni sulle pratiche affidateci. In particolare, fornendoci i suoi recapiti di utenza mobile, Lei autorizza lo Studio Legale ad effettuarLe comunicazioni anche a mezzo SMS o altra piattaforma di messaggistica (per es. Whatsapp, Telegram): al riguardo, è importante che Lei abbia cura di gestire tali utenze e i dispositivi ad esse associate, sì da evitare che terzi vengano in possesso di informazioni a Lei dirette.</p>
+                    
+                    <p>I dati raccolti potranno essere registrati sul software gestionale utilizzato dallo Studio e saranno accessibili, in forma protetta, soltanto all'Avvocato incaricato ed ai suoi Collaboratori. Ogni documento cartaceo sarà conservato in un fascicolo pseudonimizzato dell'archivio di Studio; ogni documento informatico sarà conservato in un fascicolo digitale associato alla Sua pratica. In ogni caso saranno adottate tutte le misure di sicurezza consigliate dallo "stato dell'arte" per tutelare e garantire la riservatezza dei dati al fine di impedire la perdita, il furto, l'uso improprio, l'accesso non autorizzato l'alterazione e la distruzione di documenti e informazioni.</p>
+                    
+                    <p>I Suoi dati personali non sono soggetti a diffusione né a profilazione. Potranno essere comunicati, sempre e soltanto nell'ambito dell'espletamento dell'incarico professionale, a praticanti, domiciliatari e collaboratori esterni, soggetti operanti nel settore giudiziario, alle controparti e relativi difensori, a collegi di arbitri e, in genere, a tutti quei soggetti pubblici e privati cui la comunicazione sia necessaria per il corretto adempimento dell'incarico professionale. I Suoi dati potranno essere divulgati qualora la divulgazione medesima sia necessaria per ottemperare ad obblighi di legge, per proteggere la sicurezza, l'integrità dei Servizi e i diritti dello Studio Legale. Il trattamento dei dati potrà avvenire anche per le finalità previste dalla normativa vigente in materia di antiriciclaggio.</p>
+                    
+                    <p>I Suoi dati saranno trattati per il tempo strettamente necessario all'espletamento dell'incarico. Esaurito l'incarico professionale e regolarizzato il pagamento dei compensi, lo Studio restituirà ogni documento da Lei fornito e distruggerà ogni informazione la cui conservazione non sia imposta dalla legge per periodi di tempo determinati successivi alla cessazione del rapporto.</p>
+                    
+                    <p>Il Suoi dati potranno essere conservati, anche a fini di backup, su piattaforme di "cloud storage" i cui server potrebbero essere distribuiti su scala mondiale; al pari i Suoi dati personali potranno essere trattati mediante strumenti "online" e piattaforme "cloud" dedicate alla professione forense. In ogni caso lo Studio si avvarrà soltanto di servizi offerti da provider di comprovata affidabilità che a loro volta siano conformi alle regole ed ai principi sanciti dal Regolamento UE n. 679/2016 (GDPR) nel trattamento delle informazioni personali.</p>
+                    
+                    <p>E' Suo diritto chiedere conferma allo Studio dell'esistenza o meno di propri dati personali e che questi Le siano messi a disposizione in forma intelligibile e/o strutturata anche ai fini di agevolare l'affidamento della Sua pratica a diverso professionista in caso di revoca dell'incarico allo Studio; è Suo diritto ottenere l'aggiornamento, la rettificazione e l'integrazione dei dati nonché la loro cancellazione, trasformazione in forma anonima o blocco qualora il trattamento non sia indispensabile all'espletamento dell'incarico o imposto dalla Legge.</p>
+                    
+                    <p>In qualunque caso ritenga essere stato leso un Suo diritto è Sua facoltà rivolgersi al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>
+                    
+                    <p>Per qualsiasi ulteriore informazione e necessità potrà contattare il titolare del trattamento:</p>
+                    
+                    <table style="width: 100%; margin-top: 10px; font-size: 10pt;">
+                        <tr><td style="width: 100px;"><strong>Titolare:</strong></td><td>Avv. Ciro Visciano</td></tr>
+                        <tr><td><strong>Indirizzo:</strong></td><td>Rimini (RN) Via Circonvallazione Meridionale 54</td></tr>
+                        <tr><td><strong>P.IVA:</strong></td><td>08422821218</td></tr>
+                        <tr><td><strong>telefono:</strong></td><td>3381581594 - 0541678769</td></tr>
+                        <tr><td><strong>e-mail:</strong></td><td>segreteria@studiovisciano.it</td></tr>
+                        <tr><td><strong>PEC:</strong></td><td>ciro.visciano@ordineavvocatirimini.it</td></tr>
+                    </table>
+                    
+                    <p class="mt-6">Io sottoscritto <span id="d4_cognomeNome"></span>, ricevuta, discussa e compresa l'informativa di cui sopra, autorizzo il trattamento dei miei dati personali comuni, particolari e giudiziari nei modi e nelle forme indicate.</p>
+                    
+                    <p class="mt-8">________________lì <span id="d4_data"></span></p>
+                    <p class="mt-6">per rilasciato consenso ___________________</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <style>
+        @media print {
+            body { background: white; }
+            #formSection, .no-print { display: none !important; }
+            .print-page { page-break-after: always; margin: 0; padding: 40px; }
+            .print-page:last-child { page-break-after: auto; }
+        }
+    </style>
+
+    <script>
+        function generateDocs() {
+            // Validazione campi base
+            const required = ['nome', 'cognome', 'cf', 'dataNascita', 'luogoNascita', 'indirizzo', 'cap', 'comune', 'provincia', 'telMobile', 'email', 'scuola2025', 'sedeScuola', 'provinciaScuola'];
+            for (const field of required) {
+                const val = document.getElementById(field).value;
+                if (!val || val.trim() === '') {
+                    alert('⚠️ Compila tutti i campi obbligatori (*)');
+                    document.getElementById(field).focus();
+                    return;
+                }
+            }
+
+            // Raccogli dati base
+            const data = {
+                nome: document.getElementById('nome').value,
+                cognome: document.getElementById('cognome').value,
+                genere: document.getElementById('genere').value,
+                cf: document.getElementById('cf').value,
+                dataNascita: document.getElementById('dataNascita').value,
+                luogoNascita: document.getElementById('luogoNascita').value,
+                indirizzo: document.getElementById('indirizzo').value,
+                cap: document.getElementById('cap').value,
+                comune: document.getElementById('comune').value,
+                provincia: document.getElementById('provincia').value,
+                telFisso: document.getElementById('telFisso').value,
+                telMobile: document.getElementById('telMobile').value,
+                email: document.getElementById('email').value,
+                scuola2025: document.getElementById('scuola2025').value,
+                sedeScuola: document.getElementById('sedeScuola').value,
+                provinciaScuola: document.getElementById('provinciaScuola').value,
+                trasferimenti: document.getElementById('trasferimenti').value,
+                reddito: document.getElementById('reddito').value,
+                annoReddito: document.getElementById('annoReddito').value
+            };
+
+            // Raccogli contratti
+            const anniScolastici = ['2014/2015', '2015/2016', '2016/2017', '2017/2018', '2018/2019', '2019/2020', '2021/2022', '2022/2023', '2023/2024', '2024/2025'];
+            const contratti = [];
+            anniScolastici.forEach((as, idx) => {
+                const istituto = document.getElementById(`istituto_${idx}`).value;
+                const contratto = document.getElementById(`contratto_${idx}`).value;
+                contratti.push({ as, istituto, contratto });
+            });
+
+            // Raccogli familiari
+            const familiari = [];
+            for (let i = 1; i <= familiareCount; i++) {
+                const nomeEl = document.getElementById(`fam_nome_${i}`);
+                if (nomeEl && nomeEl.parentElement.parentElement.parentElement.parentElement) {
+                    const nome = nomeEl.value;
+                    const cf = document.getElementById(`fam_cf_${i}`).value;
+                    const dataNascita = document.getElementById(`fam_data_${i}`).value;
+                    const comuneNascita = document.getElementById(`fam_comune_${i}`).value;
+                    const parentela = document.getElementById(`fam_parentela_${i}`).value;
+                    if (nome || cf) {
+                        familiari.push({ nome, cf, dataNascita, comuneNascita, parentela });
+                    }
+                }
+            }
+
+            // Funzione per convertire data in formato italiano
+            function formatDateItalian(dateStr) {
+                if (!dateStr) return '';
+                const [year, month, day] = dateStr.split('-');
+                return `${day}/${month}/${year}`;
+            }
+
+            const oggi = formatDateItalian(new Date().toISOString().split('T')[0]);
+            const dataNascitaIta = formatDateItalian(data.dataNascita);
+
+            // Popola Doc 1 - Scheda Rilevazione
+            document.getElementById('d1_cognomeNome').textContent = `${data.cognome} ${data.nome}`;
+            document.getElementById('d1_luogoNascita').textContent = data.luogoNascita;
+            document.getElementById('d1_dataNascita').textContent = dataNascitaIta;
+            document.getElementById('d1_indirizzo').textContent = data.indirizzo;
+            document.getElementById('d1_cap').textContent = data.cap;
+            document.getElementById('d1_comune').textContent = data.comune;
+            document.getElementById('d1_cf').textContent = data.cf;
+            document.getElementById('d1_email').textContent = data.email;
+            document.getElementById('d1_telefono').textContent = data.telMobile;
+            document.getElementById('d1_scuola').textContent = data.scuola2025;
+            document.getElementById('d1_sedeScuola').textContent = data.sedeScuola;
+            document.getElementById('d1_provScuola').textContent = data.provinciaScuola;
+            document.getElementById('d1_data').textContent = oggi;
+            
+            // Popola tabella contratti
+            let tabellaHTML = '';
+            contratti.forEach(c => {
+                tabellaHTML += `
+                    <tr style="border: 1px solid #000;">
+                        <td style="border: 1px solid #000; padding: 4px;">${c.as}</td>
+                        <td style="border: 1px solid #000; padding: 4px;">${c.istituto || ''}</td>
+                        <td style="border: 1px solid #000; padding: 4px;">${c.contratto || ''}</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('d1_tabellaContratti').innerHTML = tabellaHTML;
+            
+            // Trasferimenti
+            if (data.trasferimenti) {
+                document.getElementById('d1_trasferimenti').textContent = `Trasferimenti: ${data.trasferimenti}`;
+            }
+
+            // Popola Doc 2 - Procura
+            document.getElementById('d2_genere').textContent = data.genere.replace('.', '');
+            document.getElementById('d2_nominativo').textContent = `${data.cognome} ${data.nome}`;
+            document.getElementById('d2_nato').textContent = data.genere === 'La sig.ra' ? 'a' : 'o';
+            document.getElementById('d2_luogoNascita').textContent = data.luogoNascita;
+            document.getElementById('d2_provNascita').textContent = data.provincia;
+            document.getElementById('d2_dataNascita').textContent = dataNascitaIta;
+            document.getElementById('d2_cf').textContent = data.cf;
+            document.getElementById('d2_comune').textContent = data.comune;
+            document.getElementById('d2_provincia').textContent = data.provincia;
+            document.getElementById('d2_indirizzo').textContent = data.indirizzo;
+            document.getElementById('d2_data').textContent = oggi;
+
+            // Popola Doc 3 - Autocertificazione
+            document.getElementById('d3_cognomeNome').textContent = `${data.cognome} ${data.nome}`;
+            document.getElementById('d3_luogoNascita').textContent = data.luogoNascita;
+            document.getElementById('d3_dataNascita').textContent = dataNascitaIta;
+            document.getElementById('d3_comune').textContent = data.comune;
+            document.getElementById('d3_tel').textContent = data.telMobile;
+            document.getElementById('d3_anno').textContent = data.annoReddito;
+            document.getElementById('d3_richiedente').textContent = `${data.cognome} ${data.nome}`;
+            document.getElementById('d3_cfRichiedente').textContent = data.cf;
+            document.getElementById('d3_dataNascitaRich').textContent = dataNascitaIta;
+            document.getElementById('d3_comuneNascitaRich').textContent = data.luogoNascita;
+            document.getElementById('d3_data').textContent = oggi;
+            document.getElementById('d3_data2').textContent = oggi;
+            
+            // Aggiungi familiari nella tabella dell'autocertificazione
+            const tbody = document.getElementById('d3_tabellaFamiliari');
+            let famHTML = '';
+            familiari.forEach(fam => {
+                const dataFamIta = formatDateItalian(fam.dataNascita);
+                famHTML += `
+                    <tr style="border: 1px solid #000;">
+                        <td style="padding: 4px; border: 1px solid #000;">${fam.nome}<br>C.F. ${fam.cf}</td>
+                        <td style="padding: 4px; border: 1px solid #000;">${dataFamIta}</td>
+                        <td style="padding: 4px; border: 1px solid #000;">${fam.comuneNascita}</td>
+                        <td style="padding: 4px; border: 1px solid #000;">${fam.parentela}</td>
+                    </tr>
+                `;
+            });
+            // Aggiungi righe vuote se ci sono meno di 3 familiari
+            for (let i = familiari.length; i < 3; i++) {
+                famHTML += `
+                    <tr style="border: 1px solid #000;">
+                        <td style="padding: 12px; border: 1px solid #000;"><br>C.F.</td>
+                        <td style="padding: 12px; border: 1px solid #000;"></td>
+                        <td style="padding: 12px; border: 1px solid #000;"></td>
+                        <td style="padding: 12px; border: 1px solid #000;"></td>
+                    </tr>
+                `;
+            }
+            tbody.innerHTML = famHTML;
+
+            // Popola Doc 4 - Privacy
+            document.getElementById('d4_cognomeNome').textContent = `${data.cognome} ${data.nome}`;
+            document.getElementById('d4_data').textContent = oggi;
+
+            // Mostra documenti
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('docsSection').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Salva dati per email
+            window.formData = { ...data, contratti, familiari };
+        }
+
+        function openEmail() {
+            if (!window.formData) return;
+            const d = window.formData;
+            const subject = encodeURIComponent(`Ricorso - ${d.cognome} ${d.nome}`);
+            const body = encodeURIComponent(`Gentile Avv. Visciano,
+
+invio in allegato la documentazione per il ricorso:
+
+- Modulo Raccolta Dati (firmato)
+- Procura alle Liti (firmata)
+- Autocertificazione Reddituale (firmata)
+- Informativa Privacy (firmata)
+- Documento di identità
+- Contratti di lavoro
+- Cedolini paga
+
+Cordiali saluti,
+${d.nome} ${d.cognome}
+${d.email}
+${d.telMobile}`);
+            
+            window.location.href = `mailto:segreteria@studiovisciano.it?subject=${subject}&body=${body}`;
+        }
+
+        // Gestione familiari
+        let familiareCount = 0;
+        function addFamiliare() {
+            familiareCount++;
+            const container = document.getElementById('nucleoContainer');
+            const div = document.createElement('div');
+            div.className = 'bg-gray-50 p-4 rounded-lg border-2 border-gray-200';
+            div.id = `fam_${familiareCount}`;
+            div.innerHTML = `
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="font-semibold">Familiare ${familiareCount}</h4>
+                    <button type="button" onclick="document.getElementById('fam_${familiareCount}').remove()" class="text-red-600 hover:text-red-800 font-bold text-xl">× Rimuovi</button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Cognome e Nome</label>
+                        <input type="text" id="fam_nome_${familiareCount}" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Codice Fiscale</label>
+                        <input type="text" id="fam_cf_${familiareCount}" maxlength="16" class="w-full px-3 py-2 border rounded-lg text-sm uppercase">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Data Nascita</label>
+                        <input type="date" id="fam_data_${familiareCount}" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Comune Nascita</label>
+                        <input type="text" id="fam_comune_${familiareCount}" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Parentela</label>
+                        <select id="fam_parentela_${familiareCount}" class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <option value="">Seleziona...</option>
+                            <option value="Coniuge">Coniuge</option>
+                            <option value="Figlio/a">Figlio/a</option>
+                            <option value="Genitore">Genitore</option>
+                            <option value="Fratello/Sorella">Fratello/Sorella</option>
+                            <option value="Altro">Altro</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+    </script>
+</body>
+</html>
